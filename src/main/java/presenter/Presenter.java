@@ -13,7 +13,7 @@ public class Presenter {
         view.setPresenter(this);
     }
 
-    public void setArrays(int[] ids, String[] names, double[] frequencies) {
+    public void fillQueue(int[] ids, String[] names, double[] frequencies) {
         service.setIds(ids);
         service.setNames(names);
         service.setFrequencies(frequencies);

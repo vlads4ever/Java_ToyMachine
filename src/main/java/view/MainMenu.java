@@ -1,9 +1,6 @@
 package view;
 
-import view.commands.Command;
-import view.commands.Exit;
-import view.commands.FillMachine;
-import view.commands.GetToy;
+import view.commands.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ public class MainMenu {
         this.commandList.add(new Exit(view));
         this.commandList.add(new FillMachine(view));
         this.commandList.add(new GetToy(view));
+        this.commandList.add(new SaveToysList(view));
     }
 
     public String print(){

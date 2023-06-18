@@ -27,7 +27,10 @@ public class Service {
         toyMachine.setFrequencies(frequencies);
     }
 
-    public String fillQueue() {
+    public String fillQueue(int[] ids, String[] names, double[] frequencies) {
+        setIds(ids);
+        setNames(names);
+        setFrequencies(frequencies);
         return toyMachine.fillQueue();
     }
 

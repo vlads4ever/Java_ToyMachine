@@ -3,6 +3,7 @@ package view;
 import presenter.Presenter;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleUI implements View{
@@ -36,19 +37,26 @@ public class ConsoleUI implements View{
         double[] frequencies = new double[10];
         print("Наполните автомат десятью игрушками..." + "\n");
         for (int i = 0; i < 10; i++) {
-            print(String.format("Введите данные %d игрушки:", i + 1));
-            while (run) {
+            print(String.format("Введите данные %d игрушки (id Название Вероятность появления (0,1 - 0,9)):", i + 1));
+            boolean frun = true;
+            while (frun) {
                 try {
-                    ids[i] = scanner.nextInt();
-                    names[i] = scanner.next();
-                    frequencies[i] = scanner.nextDouble();
-                    run = false;
-                } catch (NumberFormatException nfe) {
+                    if (scanner != null) {
+                        ids[i] = scanner.nextInt();
+                        names[i] = scanner.next();
+                        frequencies[i] = scanner.nextDouble();
+                        frun = false;
+                    }
+                } catch (InputMismatchException | IllegalStateException | NullPointerException e) {
                     System.out.println(WRONG_VALUE);
+                } finally {
+//                    if (scanner != null) {
+//                        scanner.close();
+//                    }
                 }
             }
         }
-        presenter.setArrays(ids, names, frequencies);
+        presenter.fillQueue(ids, names, frequencies);
     }
 
     @Override
