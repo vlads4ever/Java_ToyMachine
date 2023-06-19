@@ -1,9 +1,6 @@
 package model.toymachine;
 
 import model.toy.Toy;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -11,12 +8,12 @@ public class ToyMachine {
     private int[] ids;
     private String[] names;
     private double[] frequencies;
+    private PriorityQueue<Toy> winsQueue;
     private PriorityQueue<Toy> toysQueue;
-    private List<Toy> toysList;
 
     public ToyMachine() {
+        this.winsQueue = new PriorityQueue<>();
         this.toysQueue = new PriorityQueue<>();
-        this.toysList = new ArrayList<>();
     }
 
     public void setIds(int[] ids) {
@@ -34,33 +31,35 @@ public class ToyMachine {
     public String fillToyList() {
         for (int i = 0; i < ids.length; i++) {
             Toy toy = new Toy(ids[i], names[i], frequencies[i]);
-            toysList.add(toy);
+            toysQueue.add(toy);
         }
         return "Список игрушек сформирован.";
     }
 
-    private boolean win(double frequency) {
-        Random random = new Random();
-        double winRnd = random.nextDouble();
-        return frequency > winRnd;
-    }
-
     public String lottery() {
-        if (toysList.size() == 0) {
-            return "Автомат пуст.";
+        String result = "";
+        if (toysQueue.size() == 0) {
+            result = "Автомат пуст.";
         } else {
-            while (true) {
-                for (Toy toy: toysList) {
-                    if (win(toy.getFrequency())) {
-                        toysQueue.add(toy);
-                        return "Выиграна игрушка: " + toy.toString();
-                    }
+            Random random = new Random();
+            double sumOfFrequencies = 0.0;
+            for (Toy toy: toysQueue)
+                sumOfFrequencies += toy.getFrequency();
+            double winRnd = random.nextDouble(0.01, sumOfFrequencies);
+            double countFrequencies = 0.0;
+            for (Toy toy: toysQueue) {
+                countFrequencies += toy.getFrequency();
+                if (countFrequencies >= winRnd) {
+                    winsQueue.add(toy);
+                    result = toy.toString();
+                    break;
                 }
             }
         }
+        return result;
     }
 
-    public PriorityQueue<Toy> getToysQueue() {
-        return toysQueue;
+    public PriorityQueue<Toy> getWinsQueue() {
+        return winsQueue;
     }
 }

@@ -36,6 +36,6 @@ public class Service {
     }
 
     public String saveToysQueue(String path) {
-        return saving.saveToFile(path, toyMachine.getToysQueue());
+        return saving.saveToFile(path, toyMachine.getWinsQueue());
     }
 }
