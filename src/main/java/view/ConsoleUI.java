@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class ConsoleUI implements View{
     private static String WRONG_VALUE = "Введено некорректное значение.";
     private Presenter presenter;
-    private MainMenu mainMenu;
-    private Scanner scanner;
+    private final MainMenu mainMenu;
+    private final Scanner scanner;
     private boolean run;
 
     public ConsoleUI() {
@@ -32,31 +32,32 @@ public class ConsoleUI implements View{
 
     @Override
     public void fillMachine() {
-        int[] ids = new int[10];
-        String[] names = new String[10];
-        double[] frequencies = new double[10];
-        print("Наполните автомат десятью игрушками..." + "\n");
-        for (int i = 0; i < 10; i++) {
-            print(String.format("Введите данные %d игрушки (id Название Вероятность появления (0,1 - 0,9)):", i + 1));
-            boolean frun = true;
-            while (frun) {
-                try {
-                    if (scanner != null) {
-                        ids[i] = scanner.nextInt();
-                        names[i] = scanner.next();
-                        frequencies[i] = scanner.nextDouble();
-                        frun = false;
+        int count = inputInt("Введите количество игрушек:");
+        boolean fillRun = true;
+        int[] ids = new int[count];
+        String[] names = new String[count];
+        double[] frequencies = new double[count];
+        print("Наполните автомат игрушками...");
+        for (int i = 0; i < count; i++) {
+            print(String.format("Введите данные %d-й игрушки:", i + 1));
+            fillRun = true;
+            while (fillRun) {
+                String line = inputString("Через пробел: 'id' 'Название' 'Вероятность появления' (0,01 - 0,99)");
+                try (Scanner toyScanner = new Scanner(line)) {
+                    ids[i] = toyScanner.nextInt();
+                    names[i] = toyScanner.next();
+                    frequencies[i] = toyScanner.nextDouble();
+                    if (frequencies[i] <= 0.99 && frequencies[i] >= 0.01) {
+                        fillRun = false;
+                    } else {
+                        print(WRONG_VALUE + "\n");
                     }
                 } catch (InputMismatchException | IllegalStateException | NullPointerException e) {
-                    System.out.println(WRONG_VALUE);
-                } finally {
-//                    if (scanner != null) {
-//                        scanner.close();
-//                    }
+                    print(WRONG_VALUE + "\n");
                 }
             }
         }
-        presenter.fillQueue(ids, names, frequencies);
+        presenter.fillToyList(ids, names, frequencies);
     }
 
     @Override
@@ -65,10 +66,10 @@ public class ConsoleUI implements View{
     }
 
     @Override
-    public void saveToyList() {
+    public void saveToysQueue() {
         print("Введите название файла (без расширения):");
         String path = scanner.nextLine() + ".txt";
-        presenter.saveToysList(path);
+        presenter.saveToysQueue(path);
     }
     @Override
     public void execute() throws IOException, ClassNotFoundException {
@@ -82,11 +83,30 @@ public class ConsoleUI implements View{
         }
     }
 
+    private String inputString(String message) {
+        print(message);
+        return scanner.nextLine();
+    }
+
+    private int inputInt(String message) {
+        int number = 0;
+        boolean inputRun = true;
+        while (inputRun) {
+            try {
+                number = Integer.parseInt(inputString(message).trim());
+                inputRun = false;
+            } catch (NumberFormatException nfe) {
+                System.out.println(WRONG_VALUE + "\n");
+            }
+        }
+        return number;
+    }
+
     private boolean checkTextForInt(String text){
         if (text.matches("[0-9]+")){
             return true;
         } else {
-            this.print(WRONG_VALUE);
+            this.print(WRONG_VALUE + "\n");
             return false;
         }
     }
@@ -95,7 +115,7 @@ public class ConsoleUI implements View{
         if (numCommand <= mainMenu.size()){
             return true;
         } else {
-            this.print(WRONG_VALUE);
+            this.print(WRONG_VALUE + "\n");
             return false;
         }
     }
@@ -112,7 +132,7 @@ public class ConsoleUI implements View{
 
     @Override
     public void printMenu() {
-        this.print(mainMenu.print());
+        print(mainMenu.print());
     }
 
     @Override

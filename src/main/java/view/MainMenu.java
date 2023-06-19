@@ -16,7 +16,7 @@ public class MainMenu {
         this.commandList.add(new Exit(view));
         this.commandList.add(new FillMachine(view));
         this.commandList.add(new GetToy(view));
-        this.commandList.add(new SaveToysList(view));
+        this.commandList.add(new SaveToysQueue(view));
     }
 
     public String print(){

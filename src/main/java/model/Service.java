@@ -1,10 +1,7 @@
 package model;
 
 import model.saving.Saving;
-import model.toy.Toy;
 import model.toymachine.ToyMachine;
-
-import java.util.List;
 
 public class Service {
     private ToyMachine toyMachine;
@@ -27,18 +24,18 @@ public class Service {
         toyMachine.setFrequencies(frequencies);
     }
 
-    public String fillQueue(int[] ids, String[] names, double[] frequencies) {
+    public String fillToyList(int[] ids, String[] names, double[] frequencies) {
         setIds(ids);
         setNames(names);
         setFrequencies(frequencies);
-        return toyMachine.fillQueue();
+        return toyMachine.fillToyList();
     }
 
-    public String getToyFromQueue() {
-            return toyMachine.getToyFromQueue();
+    public String lottery() {
+        return toyMachine.lottery();
     }
 
-    public String saveToysList(String path) {
-        return saving.saveToFile(path, toyMachine.getToysList());
+    public String saveToysQueue(String path) {
+        return saving.saveToFile(path, toyMachine.getToysQueue());
     }
 }

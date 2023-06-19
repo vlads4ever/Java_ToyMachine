@@ -5,6 +5,7 @@ import model.toy.Toy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 public class ToyMachine {
     private int[] ids;
@@ -14,9 +15,6 @@ public class ToyMachine {
     private List<Toy> toysList;
 
     public ToyMachine() {
-        this.ids = new int[10];
-        this.names = new String[10];
-        this.frequencies = new double[10];
         this.toysQueue = new PriorityQueue<>();
         this.toysList = new ArrayList<>();
     }
@@ -33,25 +31,36 @@ public class ToyMachine {
         this.frequencies = frequencies;
     }
 
-    public String fillQueue() {
-        for (int i = 0; i < 10; i++) {
+    public String fillToyList() {
+        for (int i = 0; i < ids.length; i++) {
             Toy toy = new Toy(ids[i], names[i], frequencies[i]);
-            toysQueue.add(toy);
-        }
-        return "Очередь заполнена.";
-    }
-
-    public String getToyFromQueue() {
-        Toy toy = toysQueue.poll();
-        if (toy != null) {
             toysList.add(toy);
-            return toy.toString();
+        }
+        return "Список игрушек сформирован.";
+    }
+
+    private boolean win(double frequency) {
+        Random random = new Random();
+        double winRnd = random.nextDouble();
+        return frequency > winRnd;
+    }
+
+    public String lottery() {
+        if (toysList.size() == 0) {
+            return "Автомат пуст.";
         } else {
-            return "Очередь пуста.";
+            while (true) {
+                for (Toy toy: toysList) {
+                    if (win(toy.getFrequency())) {
+                        toysQueue.add(toy);
+                        return "Выиграна игрушка: " + toy.toString();
+                    }
+                }
+            }
         }
     }
 
-    public List<Toy> getToysList() {
-        return toysList;
+    public PriorityQueue<Toy> getToysQueue() {
+        return toysQueue;
     }
 }

@@ -6,14 +6,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Saving {
-    public String saveToFile (String path, List<Toy> toysList) {
-        String fileName = "result.txt";
-        try (BufferedWriter writer = new BufferedWriter(new
-                FileWriter(path))) {
-            for (Toy toy : toysList) {
-                writer.write(String.format("Id: %d, Название: %s, Частота выпадения: %.2fn",
+    public String saveToFile (String path, PriorityQueue<Toy> toysQueue) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            Toy toy;
+            while ((toy = toysQueue.poll()) != null) {
+                writer.write(String.format("Id: %d, Название: %s, Вероятность выпадения: %.2f\n",
                         toy.getId(), toy.getName(), toy.getFrequency()));
             }
         } catch (IOException e) {
@@ -22,3 +22,4 @@ public class Saving {
         return "Список сохранен в файл.";
     }
 }
+

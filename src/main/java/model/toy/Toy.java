@@ -37,15 +37,20 @@ public class Toy implements Comparable<Toy>{
 
     @Override
     public int compareTo(Toy toy) {
-        return Double.compare(this.frequency, toy.getFrequency());
+        int firstCompare = Double.compare(this.frequency, toy.getFrequency());
+        if (firstCompare == 0) {
+            int secondCompare = this.name.compareTo(toy.getName());
+            if (secondCompare == 0) {
+                return Integer.compare(this.getId(), toy.getId());
+            }
+            return secondCompare;
+        }
+        return firstCompare;
     }
 
     @Override
     public String toString() {
-        return "Toy{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", frequency=" + frequency +
-                '}';
+        return String.format("Id: %d, Название: %s, Вероятность выпадения: %.2f\n",
+                id, name, frequency);
     }
 }

@@ -11,7 +11,7 @@ public class FillMachine implements Command {
 
     @Override
     public String getDescription() {
-        return "Наполнить машину.";
+        return "Наполнить машину";
     }
 
     @Override

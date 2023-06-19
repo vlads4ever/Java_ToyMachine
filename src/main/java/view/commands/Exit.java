@@ -11,7 +11,7 @@ public class Exit implements Command {
 
     @Override
     public String getDescription() {
-        return "Завершение работы.";
+        return "Завершение работы";
     }
 
     @Override

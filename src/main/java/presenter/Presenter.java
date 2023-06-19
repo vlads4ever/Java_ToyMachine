@@ -13,18 +13,15 @@ public class Presenter {
         view.setPresenter(this);
     }
 
-    public void fillQueue(int[] ids, String[] names, double[] frequencies) {
-        service.setIds(ids);
-        service.setNames(names);
-        service.setFrequencies(frequencies);
-        view.print("Массивы заполнены.");
+    public void fillToyList(int[] ids, String[] names, double[] frequencies) {
+        view.print(service.fillToyList(ids, names, frequencies) + "\n");
     }
 
     public void getToy() {
-        view.print(service.getToyFromQueue());
+        view.print(service.lottery() + "\n");
     }
 
-    public void saveToysList(String path) {
-        view.print(service.saveToysList(path));
+    public void saveToysQueue(String path) {
+        view.print(service.saveToysQueue(path) + "\n");
     }
 }

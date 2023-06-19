@@ -11,7 +11,7 @@ public class GetToy implements  Command{
 
     @Override
     public String getDescription() {
-        return "Взять игрушку.";
+        return "Розыгрыш игрушки";
     }
 
     @Override
