@@ -15,6 +15,7 @@ public class MainMenu {
         this.commandList = new ArrayList<>();
         this.commandList.add(new Exit(view));
         this.commandList.add(new FillMachine(view));
+        this.commandList.add(new LoadToys(view));
         this.commandList.add(new GetToy(view));
         this.commandList.add(new SaveToysQueue(view));
     }

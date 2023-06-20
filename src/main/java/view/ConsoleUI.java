@@ -19,11 +19,18 @@ public class ConsoleUI implements View{
         mainMenu = new MainMenu(this);
     }
 
-    @Override
-    public void start() throws IOException, ClassNotFoundException {
+    private void printWelcome() {
         print("Добро пожаловать в Автомат Игрушек!");
         print("************************************");
         print("");
+        print("Вы можете наполнить автомат игрушками вручную");
+        print("или наполнить его из файла Toys.csv");
+        print("");
+    }
+
+    @Override
+    public void start() throws IOException, ClassNotFoundException {
+        printWelcome();
         while (run) {
             this.printMenu();
             this.execute();
@@ -67,10 +74,16 @@ public class ConsoleUI implements View{
 
     @Override
     public void saveToysQueue() {
-        print("Введите название файла (без расширения):");
-        String path = scanner.nextLine() + ".txt";
+        String path = inputString("Введите имя файла (без расширения):") + ".txt";
         presenter.saveToysQueue(path);
     }
+
+    @Override
+    public void loadToys() {
+        String path = inputString("Введите имя файла (без расширения):") + ".csv";
+        presenter.loadToys(path);
+    }
+
     @Override
     public void execute() throws IOException, ClassNotFoundException {
         System.out.print("Введите номер команды> ");

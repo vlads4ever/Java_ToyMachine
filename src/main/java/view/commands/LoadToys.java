@@ -2,20 +2,20 @@ package view.commands;
 
 import view.View;
 
-public class FillMachine implements Command {
+public class LoadToys implements Command {
     private View view;
 
-    public FillMachine(View view) {
+    public LoadToys(View view) {
         this.view = view;
     }
 
     @Override
     public String getDescription() {
-        return "Наполнить автомат вручную";
+        return "Наполнить автомат из файла";
     }
 
     @Override
     public void execute() {
-        this.view.fillMachine();
+        this.view.loadToys();
     }
 }

@@ -1,15 +1,16 @@
 package model;
 
+import model.saving.Savable;
 import model.saving.Saving;
 import model.toymachine.ToyMachine;
 
 public class Service {
     private ToyMachine toyMachine;
-    private Saving saving;
+    private Savable saving;
 
-    public Service() {
+    public Service(Savable saving) {
         this.toyMachine = new ToyMachine();
-        this.saving = new Saving();
+        this.saving = saving;
     }
 
     public void setIds(int[] ids) {
@@ -28,7 +29,9 @@ public class Service {
         setIds(ids);
         setNames(names);
         setFrequencies(frequencies);
-        return toyMachine.fillToyList();
+        String result = "Массивы успешно заполнены."  + "\n";
+        result += toyMachine.fillToyList();
+        return result;
     }
 
     public String lottery() {
@@ -37,5 +40,13 @@ public class Service {
 
     public String saveToysQueue(String path) {
         return saving.saveToFile(path, toyMachine.getWinsQueue());
+    }
+
+    public String loadToys(String path) {
+        String result = saving.loadFromFile(path, toyMachine) + "\n";
+        if (result.equals("Массивы успешно заполнены из файла " + path + "\n")) {
+            result += toyMachine.fillToyList();
+        }
+        return result;
     }
 }

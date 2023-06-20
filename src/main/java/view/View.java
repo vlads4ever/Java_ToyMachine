@@ -13,5 +13,6 @@ public interface View {
     void fillMachine();
     void getToy();
     void saveToysQueue();
+    void loadToys();
     void execute() throws IOException, ClassNotFoundException;
 }

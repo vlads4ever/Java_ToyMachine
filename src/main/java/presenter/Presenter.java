@@ -24,4 +24,8 @@ public class Presenter {
     public void saveToysQueue(String path) {
         view.print(service.saveToysQueue(path) + "\n");
     }
+
+    public void loadToys(String path) {
+        view.print(service.loadToys(path) + "\n");
+    }
 }
